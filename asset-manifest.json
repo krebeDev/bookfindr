@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/bookfindr/static/css/main.f1886d8a.chunk.css",
+    "main.js": "/bookfindr/static/js/main.6d492470.chunk.js",
+    "main.js.map": "/bookfindr/static/js/main.6d492470.chunk.js.map",
+    "runtime-main.js": "/bookfindr/static/js/runtime-main.cd8240b2.js",
+    "runtime-main.js.map": "/bookfindr/static/js/runtime-main.cd8240b2.js.map",
+    "static/js/2.716c05ba.chunk.js": "/bookfindr/static/js/2.716c05ba.chunk.js",
+    "static/js/2.716c05ba.chunk.js.map": "/bookfindr/static/js/2.716c05ba.chunk.js.map",
+    "index.html": "/bookfindr/index.html",
+    "precache-manifest.4d8f3882fd1239fcbb767fe97aa36d45.js": "/bookfindr/precache-manifest.4d8f3882fd1239fcbb767fe97aa36d45.js",
+    "service-worker.js": "/bookfindr/service-worker.js",
+    "static/css/main.f1886d8a.chunk.css.map": "/bookfindr/static/css/main.f1886d8a.chunk.css.map",
+    "static/js/2.716c05ba.chunk.js.LICENSE.txt": "/bookfindr/static/js/2.716c05ba.chunk.js.LICENSE.txt",
+    "static/media/default-cover.png": "/bookfindr/static/media/default-cover.b98efed8.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cd8240b2.js",
+    "static/js/2.716c05ba.chunk.js",
+    "static/css/main.f1886d8a.chunk.css",
+    "static/js/main.6d492470.chunk.js"
+  ]
+}
