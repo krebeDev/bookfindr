@@ -3,15 +3,16 @@ import styled from 'styled-components';
 
 const ErrrorWrapper = styled.div`
   width: 20rem;
-  padding: 2rem;
-  border-left: 8px solid #e64e37;
+  padding: 1rem;
+  border-left: 8px solid ${props => props.theme.warnRed};
   margin: -2rem auto 2rem auto;
-  background: #f8f8f8;
+  background: ${props => props.theme.secondary};
   border-radius: 5px;
-  box-shadow: 1px 1px 5px #c0bebe;
+  box-shadow: 1px 1px 5px ${props => props.theme.grey};
 
-  @media(min-width: 414px) {
-      width: 25rem
+  @media (min-width: 768px) {
+      width: 25rem;
+      padding: 2rem;
     }
 `;
 
@@ -20,14 +21,18 @@ const ErrorTitle = styled.h3`
 `;
 
 const Button = styled.button`
-  padding: 0.77rem 3rem;
+  padding: 0.6rem 2.5rem;
   display: block;
   margin-top: 1.5rem;
-  background: #448026;
-  color:#f8f8f8;
+  background: ${props => props.theme.primary};
+  color: ${props => props.theme.textColorLight};
   border: none;
   border-radius: 10px;
   cursor: pointer;
+
+  @media (min-width: 768px) {
+    padding: 0.77rem 3rem;
+  }
 `;
 
 const ErrorBox = ({ error, onOK }) => {

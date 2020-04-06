@@ -1,33 +1,40 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import logo from './../logo.png'
-import App from './../App';
+import logo from './../bookfindr-logo.svg';
+import lightIcon from './../assets/light-mode.svg';
+import darkIcon from './../assets/dark-mode.svg';
+import { lightTheme } from '../theme/globalStyles';
 
 
 const HeaderElem = styled.header`
-  background: #d6f7d0;
+  background: ${props => props.theme.primary};
   padding-bottom: 4rem;
 `;
 
-const Container = styled.div`
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 1rem;
+const HeaderBar = styled.nav`
+  background: ${props => props.theme.secondary};
 `;
 
-const HeaderBar = styled.nav`
-  background: #f8f8f8;  
-  padding: 1rem 0;
+const FlexWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+  padding: 1rem;
 `;
 
 const LogoWrapper = styled.div`
-  width: 10rem;
-  display: inline-block;
+  flex-grow: 1;
 `;
 
 const AppLogo = styled.img`
-  max-width: 100%;
+  width: 10rem;
   height: auto;
+
+    @media (min-width: 768px) {
+      width: 13rem;
+    }
 `;
 
 const SearchBar = styled.div`
@@ -35,49 +42,82 @@ const SearchBar = styled.div`
 `;
 
 const HeaderTitle = styled.h1`
-  color: #344031;
+  font-family: "Lato", sans-serif;
+  color: ${props => props.theme.textColorLight};
   margin: 2.5rem auto;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 
-    @media(min-width: 768px) {
-      font-size: 2.5rem;
-    }
-  `;
+  @media (min-width: 768px) {
+    font-size: 2.8rem;
+  }
+`;
 
 const Input = styled.input`
-  padding: 0.8rem;
+  padding: 0.6rem;
   border: none;
-  width: 85%;
-  border-radius: 10px;
-  background: #f8f8f8;
+  width: 60%;
+  border-radius: 10px 0 0 10px;
+  background: ${props => props.theme.secondary};
 
-    @media(min-width: 768px) {
-      width: 35%;
-      border-radius: 10px 0 0 10px;
-    }
-  `;
+  @media (min-width: 768px) {
+    width: 38%;
+    padding: 0.8rem;
+  }
+`;
 
 const SearchBtn = styled.button`
-  padding: 0.77rem 2rem;
-  background: #448026;
+  padding: 0.56rem 1rem;
+  background: ${props => props.theme.darkGreen};
   font-size: 0.9rem;
   letter-spacing: 2px;
-  border-radius: 10px;
-  color: #f8f8f8;
+  border-radius: 0 10px 10px 0;
+  color: ${props => props.theme.textColorLight};
   border: none;
-  margin-top: 2rem;
 
   &:hover {
     opacity: 0.9;
   }
 
-    @media(min-width: 768px) {
-      border-radius: 0 10px 10px 0;
-      margin-top: 0;
-
-    }
+  @media (min-width: 768px) {
+    padding: 0.79rem 2rem;
+  }
+`;
+    
+  const NavItems = styled.ul`
+    padding-right: 1.8rem;
+    list-style-type: none;
   `;
+    
+const Shelf = styled.li`
+  font-weight: 700;
+  color: ${props => props.theme.textColor};
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
 
+  @media (min-width: 768px) {
+    font-size: 1rem;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+const ThemeSwitcher = styled.img`
+  width: 1.7rem;
+  height: auto;
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+    width: 2rem;
+  }
+`;
+
+const Form = styled.form`
+  max-width: 1200px;
+  margin: auto;
+`;
 
 class Header extends Component {
   state = {
@@ -101,36 +141,43 @@ class Header extends Component {
   }
   
   render() { 
-    return ( 
+    const { onThemeChange, theme } = this.props;
+
+    return (
       <HeaderElem>
         <HeaderBar>
-          <Container>
+          <FlexWrapper>
             <LogoWrapper>
-              <a href="/"> <AppLogo 
-                src={logo} alt="kaybooks logo"
-              /></a>
-            </LogoWrapper>         
-          </Container>
+              <AppLogo src={logo} alt="bookfindr logo" />
+            </LogoWrapper>
+            <NavItems>
+              <Shelf>My Shelf</Shelf>
+            </NavItems>
+            <ThemeSwitcher
+              onClick={onThemeChange}
+              src={theme === lightTheme ? darkIcon : lightIcon}
+              alt="theme-switcher"
+            />
+          </FlexWrapper>
         </HeaderBar>
         <SearchBar>
-          <HeaderTitle>All your books, in one place!</HeaderTitle>
-          <form ref={form => this.form = form}>
-            <Input type="search" 
+          <HeaderTitle>All your books in one place</HeaderTitle>
+          <Form ref={form => (this.form = form)}>
+            <Input
+              type="search"
               id="search"
               name="search"
-              onChange={ this.handleChange }
-              placeholder="Search for a book" 
+              onChange={this.handleChange}
+              placeholder="Search for a book"
               aria-label="Search for a book"
-              />
-            <SearchBtn 
-              type="button" 
-              onClick={ this.handleSearch }>
+            />
+            <SearchBtn type="button" onClick={this.handleSearch}>
               Search
             </SearchBtn>
-            </form>
+          </Form>
         </SearchBar>
       </HeaderElem>
-     );
+    );
   }
 }
  

@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const AppFooter = styled.footer`
-  background: #344031;
-  color: #d6f7d0;
+  background: ${props => props.theme.darkGreen};
+  color: ${props => props.theme.textColorLight};
   margin-top: auto;
 `;
 
@@ -16,10 +16,10 @@ const Container = styled.div`
 
 const FooterLink = styled.a`
   text-decoration: none;
-  color: #d6f7d0;
+  color: ${props => props.theme.textColorLight};
 
   &:hover {
-    color: #fff;
+    color: #f8f8f8;
   }
 `;
 

@@ -18,23 +18,25 @@ Bookfindr is a search engine that allows users to search for books. The app fetc
 
 * React v16.13.1
 * Styled Components
+* Google Books API
 
 ## Features
 This is a basic MVP. Most of the intended features are still in development.
 - [x] Accessibilty
 - [x] Error handling
-- [x] Responsive
+- [x] Responsiveness
+- [ ] Advanced search
 - [ ] Error logging
 - [x] Navigation - Next link
 - [ ] Navigation - Previous link
 - [ ] Book shelf
-- [ ] Theming
+- [x] Theming
 - [ ] PWA
 - [ ] Others :roll_eyes:
 
 ## Setup
 
-To run the app, install it locally using: 
+To run the app, clone this repo, and install it locally using: 
 
 ```
 $ npm install

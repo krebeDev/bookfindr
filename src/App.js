@@ -1,11 +1,14 @@
-
 import React, { Component } from 'react';
-import { googleBooksApi, fixedParams, apiKey } from './../src/config.json'
-import Header from './components/header';
-import Footer from './components/footer';
+import { googleBooksApi, fixedParams, apiKey } from './../src/config.json';
+import { ThemeProvider } from 'styled-components'
+import GlobalStyle, { darkTheme, lightTheme } from './theme/globalStyles';
 import ErrorBoundary from './components/errorBoundary';
-import Results from './components/results';
+import Header from './components/header';
 import ErrorBox from './components/errorMessage';
+import Results from './components/results';
+import Footer from './components/footer';
+import { getBookDetails } from './components/utilities/utils';
+import Shelf from './components/Shelf';
 
 class App extends Component {
   state = {
@@ -16,6 +19,8 @@ class App extends Component {
       startIndex: 0,
     },
     error: {},
+    userShelf: [],
+    theme: darkTheme,
   }
 
   fetchBooks = () => {
@@ -30,17 +35,17 @@ class App extends Component {
       fetch(`${googleBooksApi}${searchTerm}${fixedParams}${index}&key=${apiKey}`, {
         signal: controller.signal
       }).then(res => res.json())
-          .then(data => {
-            if (data.totalItems === 0) {
-              throw new URIError ('No results found. Provide a valid term');
-            } else if (data.error || data.totalItems === undefined) {
-              throw new Error ('Network problem, try again after some time');
-            } else {
-              this.setState({ books: data.items, totalItems: data.totalItems });
-            }
-          }).catch(error => {
-            this.setState({ error });
-          })      
+        .then(data => {
+          if (data.totalItems === 0) {
+            throw new URIError('No results found. Provide a valid term');
+          } else if (data.error || data.totalItems === undefined) {
+            throw new Error('Network problem, try again after some time');
+          } else {
+            this.setState({ books: data.items, totalItems: data.totalItems });
+          }
+        }).catch(error => {
+          this.setState({ error });
+        })
     } catch (error) {
       this.setState({ error });
     } finally {
@@ -49,11 +54,21 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.fetchBooks()
+    this.fetchBooks();
   }
 
+  // componentDidUpdate(prevProps) {
+  //   let userShelf;
+  //   if (this.state.books.length > 1) {
+  //      userShelf = localStorage.getItem("userShelf")
+  //        ? JSON.parse(localStorage.getItem("userSelf"))
+  //        : [];
+  //      this.setState({ userShelf });
+  //   }
+  // }
+
   handleSearch = async searchQuery => {
-    const searchParameters = {...this.state.searchParameters };
+    const searchParameters = { ...this.state.searchParameters };
     searchParameters.searchTerm = searchQuery;
     await this.setState({ searchParameters });
     this.fetchBooks();
@@ -81,43 +96,64 @@ class App extends Component {
       books: [],
       totalItems: 0,
       searchParameters: {
-      searchTerm: null,
-      startIndex: 0,
-    },
-    error: {},
+        searchTerm: null,
+        startIndex: 0,
+      },
+      error: {},
     });
   }
 
-   goToPrevPage = () => {
+  goToPrevPage = () => {
     console.log('previous'); // Implementation with React Router in progress
   }
 
+  handleThemeChange = () => {
+    let theme = this.state.theme;
+    theme = theme === lightTheme ? darkTheme : lightTheme;
+    this.setState({ theme });
+  }
+
+  handleAddToShelf = (bookId) => { 
+    const books = [...this.state.books];
+    let userShelf;
+    const addedBook = books.filter(b => b.etag === bookId);
+    userShelf = localStorage.getItem('userShelf')
+      ? JSON.parse(localStorage.getItem('userShelf'))
+      : [];
+    userShelf.push(getBookDetails(addedBook[0].volumeInfo));
+    localStorage.setItem('userShelf', JSON.stringify(userShelf))
+  }
+
   render() { 
-    const { error, searchParameters, books, totalItems } = this.state;
-    return ( 
-      <>
+    const { error, searchParameters, books, totalItems, theme, userShelf } = this.state;
+    return (
+      <ThemeProvider theme={this.state.theme}>
+        <GlobalStyle />
         <ErrorBoundary>
-          <Header 
-            onSearch={ this.handleSearch } 
+          <Header
+            onSearch={this.handleSearch}
+            onThemeChange={this.handleThemeChange}
+            theme={theme}
           />
           <main>
-            {error.name ? 
-              <ErrorBox 
-                error={ error }
-                onOK={ this.resetAll }/> : 
-              <Results 
-                searchParameters = { searchParameters }
-                books={ books }
-                onNextPage={ this.getNextPage }
-                onPrevPage={ this.goToPrevPage }
-                totalItems={ totalItems }
-                />
-            }
+            {error.name ? (
+              <ErrorBox error={error} onOK={this.resetAll} />
+            ) : (
+              <Results
+                searchParameters={searchParameters}
+                books={books}
+                onNextPage={this.getNextPage}
+                onPrevPage={this.goToPrevPage}
+                totalItems={totalItems}
+                onAddToShelf={this.handleAddToShelf}
+              />
+            )}
           </main>
+          {/* {userShelf && <Shelf userShelf={userShelf} />} */}
         </ErrorBoundary>
         <Footer />
-      </>
-     );
+      </ThemeProvider>
+    );
   }
 }
  
