@@ -6,7 +6,7 @@
 
 Bookfindr is a search engine that allows users to search for books. The app fetches data from the [Google Books API](https://developers.google.com/books/) and render summary of each returned book to the user. 
 
-[Try the Demo](https://krebedev.github.io/bookfindr/)
+[Try the Demo](https://bookfindr.netlify.com/)
 
 
 ## Motivation
