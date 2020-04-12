@@ -20,7 +20,7 @@ class App extends Component {
     },
     error: {},
     userShelf: [],
-    theme: darkTheme,
+    theme: lightTheme,
   }
 
   fetchBooks = () => {
