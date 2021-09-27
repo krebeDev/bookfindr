@@ -1,184 +1,64 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import logo from './../bookfindr-logo.svg';
-import lightIcon from './../assets/light-mode.svg';
-import darkIcon from './../assets/dark-mode.svg';
-import { lightTheme } from '../theme/globalStyles';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import Logo from './svg/Logo'
+import SunnyIcon from './svg/Sunny'
+import Container from './ui/Container'
+import breakpoints from './../commons/breakpoints'
 
+const StyledHeader = styled.header`
+  margin-bottom: 2rem;
+  box-shadow: 5px 5px 10px rgba(160, 208, 154, 0.2);
+  padding: 1rem 0;
 
-const HeaderElem = styled.header`
-  background: ${props => props.theme.primary};
-  padding-bottom: 4rem;
-`;
+  & a {
+    text-transform: uppercase;
+  }
+`
 
-const HeaderBar = styled.nav`
-  background: ${props => props.theme.secondary};
-`;
-
-const FlexWrapper = styled.div`
+const Nav = styled(Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
-  margin: auto;
-  padding: 1rem;
-`;
-
-const LogoWrapper = styled.div`
-  flex-grow: 1;
-`;
-
-const AppLogo = styled.img`
-  width: 10rem;
-  height: auto;
-
-    @media (min-width: 768px) {
-      width: 13rem;
-    }
-`;
-
-const SearchBar = styled.div`
-  text-align: center;
-`;
-
-const HeaderTitle = styled.h1`
-  font-family: "Lato", sans-serif;
-  color: ${props => props.theme.textColorLight};
-  margin: 2.5rem auto;
-  font-size: 1.6rem;
-
-  @media (min-width: 768px) {
-    font-size: 2.8rem;
   }
-`;
+`
 
-const Input = styled.input`
-  padding: 0.6rem;
-  border: none;
-  width: 60%;
-  border-radius: 10px 0 0 10px;
-  background: ${props => props.theme.secondary};
+const LogoAnchor = styled(Link)`
+  width: 5rem;
+  color: ${({ theme }) => theme.greyishGreen};
 
-  @media (min-width: 768px) {
-    width: 38%;
-    padding: 0.8rem;
+  @media ${breakpoints.device.tablet} {
+    width: 7rem;
   }
-`;
+`
 
-const SearchBtn = styled.button`
-  padding: 0.56rem 1rem;
-  background: ${props => props.theme.darkGreen};
-  font-size: 0.9rem;
-  letter-spacing: 2px;
-  border-radius: 0 10px 10px 0;
-  color: ${props => props.theme.textColorLight};
-  border: none;
+const Right = styled.div`
+  display: flex;
+  align-items: center;
+`
 
-  &:hover {
-    opacity: 0.9;
-  }
+const ToggleButton = styled.button`
+  width: 1.5rem;
+  margin-left: 2rem;
+`
 
-  @media (min-width: 768px) {
-    padding: 0.79rem 2rem;
-  }
-`;
-    
-  const NavItems = styled.ul`
-    padding-right: 1.8rem;
-    list-style-type: none;
-  `;
-    
-const Shelf = styled.li`
-  font-weight: 700;
-  color: ${props => props.theme.textColor};
-  text-transform: uppercase;
-  cursor: pointer;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
+const Header = () => {
+  return (
+    <StyledHeader>
+      <Nav as='nav'>
+        <LogoAnchor to='/' title='Go to home page' aria-label='bookfindr logo'>
+          <Logo />
+        </LogoAnchor>
 
-  @media (min-width: 768px) {
-    font-size: 1rem;
-  }
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-const ThemeSwitcher = styled.img`
-  width: 1.7rem;
-  height: auto;
-  cursor: pointer;
-
-  @media (min-width: 768px) {
-    width: 2rem;
-  }
-`;
-
-const Form = styled.form`
-  max-width: 1200px;
-  margin: auto;
-`;
-
-class Header extends Component {
-  state = {
-    searchTerm: '',
-  }
-
-  handleChange = e => this.setState({ searchTerm: e.target.value });
-
-  handleSearch = async (e) => {
-    const { onSearch } = this.props;
-    const searchTerm = this.state.searchTerm;
-    e.preventDefault();
-    
-    if (searchTerm.length === 0) {
-      onSearch(null);
-    } else {
-      onSearch(encodeURIComponent(searchTerm)) 
-    }
-    await this.setState({ searchTerm: '' })
-    this.form.reset();
-  }
-  
-  render() { 
-    const { onThemeChange, theme } = this.props;
-
-    return (
-      <HeaderElem>
-        <HeaderBar>
-          <FlexWrapper>
-            <LogoWrapper>
-              <AppLogo src={logo} alt="bookfindr logo" />
-            </LogoWrapper>
-            <NavItems>
-              <Shelf>My Shelf</Shelf>
-            </NavItems>
-            <ThemeSwitcher
-              onClick={onThemeChange}
-              src={theme === lightTheme ? darkIcon : lightIcon}
-              alt="theme-switcher"
-            />
-          </FlexWrapper>
-        </HeaderBar>
-        <SearchBar>
-          <HeaderTitle>All your books in one place</HeaderTitle>
-          <Form ref={form => (this.form = form)}>
-            <Input
-              type="search"
-              id="search"
-              name="search"
-              onChange={this.handleChange}
-              placeholder="Search for a book"
-              aria-label="Search for a book"
-            />
-            <SearchBtn type="button" onClick={this.handleSearch}>
-              Search
-            </SearchBtn>
-          </Form>
-        </SearchBar>
-      </HeaderElem>
-    );
-  }
+        <Right>
+          <Link to='/shelf'>Shelf</Link>
+          <ToggleButton title='toggle theme' aria-label='theme switcher'>
+            <SunnyIcon />
+          </ToggleButton>
+        </Right>
+      </Nav>
+    </StyledHeader>
+  )
 }
- 
-export default Header 
+
+export default Header
