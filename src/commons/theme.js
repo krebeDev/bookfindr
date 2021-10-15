@@ -8,6 +8,7 @@ const theme = {
     greyishGreen: '#364334',
     white: '#ffffff',
     red: '#7f111c',
+    grey: '#808d7e',
   },
 
   dark: {

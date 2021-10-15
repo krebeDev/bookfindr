@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import breakpoints from './../commons/breakpoints'
 
@@ -36,16 +37,19 @@ const Button = styled.button`
   }
 `
 
-const SearchForm = ({ handleSearch }) => {
+const SearchForm = () => {
   const [searchTerm, setSearchTerm] = useState('')
+  const history = useHistory()
   const handleChange = (e) => {
     setSearchTerm(e.target.value)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!searchTerm.trim()) return
-    handleSearch(searchTerm)
+    const sanitizedQuery = searchTerm.trim().toLowerCase()
+    if (!sanitizedQuery) return
+    const formatedQuery = sanitizedQuery.split(' ').join('-')
+    history.push(`/search?query=${formatedQuery}`)
   }
 
   return (
@@ -58,7 +62,7 @@ const SearchForm = ({ handleSearch }) => {
           placeholder='Enter a book title or author name'
           onChange={handleChange}
         />
-        <Button type='button' onClick={handleSubmit}>
+        <Button type='submit' onClick={handleSubmit}>
           Search
         </Button>
       </FormGroup>

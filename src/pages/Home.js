@@ -1,12 +1,13 @@
-import React, { useReducer, useEffect } from 'react'
+import React from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import BookCard from '../components/BookCard'
 import SearchForm from '../components/SearchForm'
 import Container from '../components/ui/Container'
 import breakpoints from '../commons/breakpoints'
-import fetchBooks from './../utils/fetchBooks'
-import booksReducer from './../store/reducers'
-import { ADD_BOOKS, SEARCH_BOOKS } from '../store/actions'
+import designImage from '../images/design.png'
+import programmingImage from '../images/programming.png'
+import cityImage from '../images/cities.png'
+import blockchainImage from '../images/blockchain.png'
 
 const FormBox = styled.div`
   padding: 3rem 1rem;
@@ -58,144 +59,133 @@ const FormBox = styled.div`
   }
 `
 
-const SearchResult = styled.div`
-  background: ${({ theme }) => theme.white};
-  border-radius: 0.5rem;
-  margin-top: 1.5rem;
-  padding: 1rem;
-  
-  @media ${breakpoints.device.tablet} {
-    padding: 2rem;
-  }
-}
-`
-
 const Title = styled.h2`
   display: flex;
   align-items: center;
 
   & :nth-child(2) {
     flex: 1;
-    height: 3px;
-    border-radius: 0.5rem;
+    height: 0.3rem;
+    border-radius: 0 0.5rem 0.5rem 0;
     margin-left: 1rem;
     background: ${({ theme }) => theme.lightGreen};
-    margin-top: 7px;
   }
 
   @media ${breakpoints.device.tablet} {
     & :nth-child(2) {
-      height: 6px;
+      height: 0.7rem;
     }
   }
 `
 
-const BookCards = styled.ul`
+const CategoryList = styled.ul`
   display: flex;
-  margin: 1rem auto;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+`
+const BookCategory = styled.li`
+  position: relative;
+  flex-basis: 49%;
+  margin: 1% 0;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(30, 145, 19, 0.3);
+    border-radius: 0.5rem;
+  }
+`
+const Figure = styled.figure`
+  cursor: pointer;
+`
+
+const CategoryImage = styled.img`
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+`
+
+const Figcaption = styled.figcaption`
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  text-align: center;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.white};
+  font-weight: 700;
+  z-index: 2;
 
   @media ${breakpoints.device.tablet} {
-    justify-content: space-around;
-    flex-direction: row;
-    flex-wrap: wrap;
+    font-size: 1.3rem;
   }
 `
 
-const LoadMoreButton = styled.button`
-  padding: 1rem 2rem;
-  background: ${({ theme }) => theme.baseGreen};
-  color: ${({ theme }) => theme.veryLightGreen};
-  border-radius: 5px;
-  font-size: 1rem;
-
-  &:disabled {
-    background: grey;
-    cursor: default;
-  }
-`
-
-const Navigation = styled.div`
-  text-align: center;
-  & > p {
-    margin-bottom: 1rem;
-  }
+const CategorySection = styled.section`
+  padding: 2rem 0;
 `
 
 const HomePage = () => {
-  const initialState = {
-    books: [],
-    searchTerm: '',
-    startIndex: 0,
-    isFetching: false,
-    totalItems: 0,
-    error: '',
-  }
-  const [state, dispatch] = useReducer(booksReducer, initialState)
+  const history = useHistory()
+  const categories = [
+    {
+      title: 'design',
+      image: designImage,
+    },
 
-  const renderBooks = state.books.map(
-    ({ title, cover, authors, publisher, infoLink, id }) => (
-      <BookCard
-        key={id}
-        {...{ title, cover, authors, publisher, infoLink, id }}
-      />
-    )
-  )
+    {
+      title: 'programming',
+      image: programmingImage,
+    },
+    {
+      title: 'blockchain',
+      image: blockchainImage,
+    },
 
-  const handleSearch = (searchTerm) => {
-    fetchBooks(searchTerm, 0, SEARCH_BOOKS, dispatch)
-  }
+    {
+      title: 'smart-cities',
+      image: cityImage,
+    },
+  ]
 
-  const handleLoadMore = () => {
-    const { searchTerm, startIndex } = state
-    fetchBooks(searchTerm, startIndex, ADD_BOOKS, dispatch)
+  const handleClick = (term) => {
+    history.push(`/search?query=${term}`)
   }
 
-  useEffect(() => {
-    fetchBooks('all', 0, ADD_BOOKS, dispatch)
-  }, [])
-
-  const restultTitle =
-    state.searchTerm === 'all'
-      ? 'Latest releases'
-      : `Results for "${state.searchTerm}"`
-
-  const resultStatus = `Showing ${
-    state.startIndex > state.totalItems ? state.totalItems : state.startIndex
-  } of ${state.totalItems} results`
+  const renderCategories = categories.map(({ title, image }) => (
+    <BookCategory key={title}>
+      <Figure onClick={() => handleClick(title)}>
+        <CategoryImage src={image} alt={title} width={800} height={400} />
+        <Figcaption>{title}</Figcaption>
+      </Figure>
+    </BookCategory>
+  ))
 
   return (
-    <section>
-      <Container>
-        <FormBox>
-          <h1>Find &amp; organize your favorite books</h1>
-          <SearchForm handleSearch={handleSearch} />
-        </FormBox>
-        <SearchResult>
+    <>
+      <section>
+        <Container>
+          <FormBox>
+            <h1>Find &amp; organize your favorite books</h1>
+            <SearchForm />
+          </FormBox>
+        </Container>
+      </section>
+      <CategorySection>
+        <Container>
           <Title>
-            <span>{restultTitle}</span>
+            <span>Popular Categories</span>
             <span aria-hidden='true' />
           </Title>
-          {state.error && <p>Error </p>}
-          {!state.error && <BookCards>{renderBooks}</BookCards>}
-          {state.isFetching && <p>Fecthing books...</p>}
-          {!state.isFetching && (
-            <Navigation>
-              <p>{resultStatus}</p>
-              {state.totalItems > 10 && (
-                <LoadMoreButton
-                  type='button'
-                  onClick={handleLoadMore}
-                  disabled={state.startIndex >= state.totalItems}
-                >
-                  Load More
-                </LoadMoreButton>
-              )}
-            </Navigation>
-          )}
-        </SearchResult>
-      </Container>
-    </section>
+          <CategoryList>{renderCategories}</CategoryList>
+        </Container>
+      </CategorySection>
+    </>
   )
 }
 

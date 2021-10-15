@@ -4,7 +4,6 @@ import styled from 'styled-components'
 const AppFooter = styled.footer`
   margin-top: auto;
   text-align: center;
-  // border-top: 2px solid ${({ theme }) => theme.mediumGreen};
 `
 
 const Container = styled.div`
@@ -18,16 +17,13 @@ const Footer = () => {
     <AppFooter>
       <Container>
         <p>
-          &copy;2021 | Books by{' '}
+          &copy;2021 | Powered by{' '}
           <a href='https://books.google.com/' rel='noreferrer noopener'>
-            Google
+            Google Books API
           </a>{' '}
           | Designed by{' '}
-          <a
-            href='https://www.linkedin.com/in/krebedev/'
-            rel='noreferrer noopener'
-          >
-            @krebeDev
+          <a href='https://krebe.dev/' rel='noreferrer noopener'>
+            krebeDev
           </a>
         </p>
       </Container>

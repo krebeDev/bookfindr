@@ -1,4 +1,0 @@
-export const ADD_BOOKS = 'BOOKS/ADD_BOOKS'
-export const SEARCH_BOOKS = 'BOOKS/SEARCH_BOOKS'
-export const BOOKS_ERROR = 'BOOKS_ERROR'
-export const BOOKS_FETCHING = 'BOOKS_FETCHING'
