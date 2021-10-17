@@ -22,16 +22,12 @@ body {
   line-height: 1.5;
 }
 
-h1, h2, h3 {
-  // font-weight: 700;
-}
-
 h1 {
   font-size: 1.8rem;
 }
 
 h2 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 .root {
@@ -52,24 +48,36 @@ a {
   color: inherit;
 }
 
+a:hover {
+  color: ${({ theme }) => theme.baseGreen};
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px ${({ theme }) => theme.white} inset;
+  box-shadow: 0 0 0px 1000px ${({ theme }) => theme.white} inset;
+}
+
 ul {
   list-style: none;
 }
 
-// img {
-//   display: block;
-//   max-width: 100%;
-//   height: auto;
-// }
+ @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 
 @media ${breakpoints.device.tablet} {
-h1 {
-  font-size: 2.3rem;
-}
+  h1 {
+    font-size: 2.3rem;
+  }
 
-h2 {
-  font-size: 1.5rem;
-}
+  h2 {
+    font-size: 1.5rem;
+  }
 }
 `
 
