@@ -1,15 +1,16 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import BooksContextProvider from './contexts/BooksContext'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import theme from './commons/theme'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import HomePage from './pages/Home'
-import Shelf from './pages/Shelf'
-import GlobalStyle from './commons/global-styles'
+import BookDetails from './pages/BookDetails'
+import Bookshelf from './pages/Bookshelf'
+import SearchResult from './pages/SearchResult'
 import NotFound from './pages/NotFound'
-import Search from './pages/Search'
+import GlobalStyle from './commons/global-styles'
 
 const App = () => {
   return (
@@ -21,8 +22,9 @@ const App = () => {
           <main>
             <Switch>
               <Route path='/' exact component={HomePage} />
-              <Route path='/shelf' component={Shelf} />
-              <Route path='/search' component={Search} />
+              <Route path='/shelf/:bookId' component={BookDetails} />
+              <Route path='/shelf' component={Bookshelf} />
+              <Route path='/search' component={SearchResult} />
               <Route component={NotFound} />
             </Switch>
           </main>

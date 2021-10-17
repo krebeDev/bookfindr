@@ -1,8 +1,10 @@
 export const ADD_BOOKS = 'BOOKS/ADD_BOOKS'
-export const BOOKS_ERROR = 'BOOKS/HAS_ERROR'
-export const IS_FETCHING = 'IS_FETCHING'
-export const ADD_SHELF = 'ADD_SHELF'
-export const GET_SHELF = 'BOOKS/GET_SHELF'
+export const SET_ERROR = 'BOOKS/SET_ERROR'
+export const SET_IS_FETCHING = 'BOOKS/SET_IS_FETCHING'
+export const ADD_TO_SHELF = 'BOOKS/ADD_TO_SHELF'
+export const GET_SHELF_BOOKS = 'BOOKS/GET_SHELF_BOOKS'
+export const RESET = 'BOOKS/RESET'
+export const DELETE_SHELF_ITEM = 'BOOKS/DELETE_SHELF_ITEM'
 
 export const initializer = (initialState) => {
   const shelf = JSON.parse(localStorage.getItem('shelf'))
@@ -12,7 +14,7 @@ export const initializer = (initialState) => {
 
 const BooksReducer = (state, action) => {
   switch (action.type) {
-    case IS_FETCHING:
+    case SET_IS_FETCHING:
       return { ...state, isFetching: action.payload }
     case ADD_BOOKS:
       return {
@@ -24,17 +26,32 @@ const BooksReducer = (state, action) => {
         isFetching: false,
       }
 
-    case BOOKS_ERROR:
+    case RESET:
       return {
         ...state,
-        error: action.payload.error.message,
+        ...action.payload,
+      }
+
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.payload,
         isFetching: false,
       }
 
-    case ADD_SHELF:
+    case ADD_TO_SHELF:
       return {
         ...state,
         shelf: state.shelf.concat(action.payload),
+      }
+
+    case DELETE_SHELF_ITEM:
+      const remainingBooks = state.shelf.filter(
+        (book) => book.id !== action.payload
+      )
+      return {
+        ...state,
+        shelf: remainingBooks,
       }
 
     default:

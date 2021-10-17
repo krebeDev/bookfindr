@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import Container from '../components/ui/Container'
+import Container from './../../components/lib/Container'
 
 const StyledLink = styled(Link)`
   font-size: 1.5rem;
