@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import breakpoints from './../../commons/breakpoints'
-import Container from './../lib/Container'
+import breakpoints from '../../commons/breakpoints'
+import Container from '../lib/Container'
 
 const StyledHeader = styled.header`
   margin-bottom: 2rem;
