@@ -1,10 +1,10 @@
 ## Bookfindr
 
-![Design preview for Bookfindr](./src/assets/desktop-preview.png)
+![Design preview for Bookfindr](./src/images/preview.png)
 
 ## Overview
 
-Bookfindr lets users search and organize their favorite books. The app fetches data from the [Google Books API](https://developers.google.com/books/) persist shelf data in local stoarge. A future enhancement will use Firebase for data storage.
+Bookfindr lets users search and organize their favorite books. The app fetches books from the [Google Books API](https://developers.google.com/books/) persist shelf data in local stoarge. A future enhancement will use Firebase for data storage.
 
 [Try the Demo](https://bookfindr.netlify.com/)
 
