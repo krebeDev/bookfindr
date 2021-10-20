@@ -1,5 +1,0 @@
-{
-  "googleBooksApi": "https://www.googleapis.com/books/v1/volumes?q=",
-  "apiKey": "AIzaSyDndNjguYi8RDdPEeOAqEqx2vs1OdF5Os0",
-  "fixedParams": "&orderBy=newest&maxResults=10&startIndex="
-}
