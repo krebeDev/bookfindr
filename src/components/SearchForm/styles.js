@@ -38,8 +38,18 @@ const Button = styled.button`
   }
 `
 
+const ErrorMessage = styled.small`
+  color: ${({ theme }) => theme.brightRed};
+  background: ${({ theme }) => theme.veryLightGreen};
+  position: absolute;
+  bottom: -1.5rem;
+  padding: 0.05rem 0.3rem;
+  border-radius: 3px;
+`
+
 export default {
   FormGroup,
   Input,
   Button,
+  ErrorMessage,
 }

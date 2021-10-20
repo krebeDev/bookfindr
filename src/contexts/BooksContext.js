@@ -1,6 +1,5 @@
 import React, { createContext, useReducer, useEffect } from 'react'
 import { getBookDetails } from '../commons/utilities'
-import { googleBooksApi, fixedParams, apiKey } from './../config.json'
 import BooksReducer, {
   initializer,
   SET_ERROR,
@@ -12,6 +11,8 @@ import BooksReducer, {
 } from './BooksReducer'
 
 export const BooksContext = createContext()
+const BASE_URL = 'https://www.googleapis.com/books/v1/volumes?q='
+const PARAMS = '&orderBy=newest&maxResults=10&startIndex='
 
 const initialState = {
   books: [],
@@ -30,7 +31,7 @@ const BooksContextProvider = ({ children }) => {
     const shelfBooksIds = state.shelf.map(({ id }) => id)
     try {
       const response = await fetch(
-        `${googleBooksApi}${searchTerm}${fixedParams}${startIndex}&key=${apiKey}`
+        `${BASE_URL}${searchTerm}${PARAMS}${startIndex}&key=${process.env.REACT_APP_API_KEY}`
       )
       const data = await response.json()
       if (data.totalItems === 0)
