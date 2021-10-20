@@ -24,7 +24,7 @@ const App = () => {
               <Route path='/' exact component={HomePage} />
               <Route path='/shelf/:bookId' component={BookDetails} />
               <Route path='/shelf' component={Bookshelf} />
-              <Route path='/search*' component={SearchResult} />
+              <Route path='/search' component={SearchResult} />
               <Route component={NotFound} />
             </Switch>
           </main>
